@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { FormContainer } from './components/form'
+import { FormContainer } from './components/form-container'
 
 export default function NewsletterHome() {
   return (
@@ -18,12 +18,7 @@ export default function NewsletterHome() {
         <p className="mt-4 text-sm">
           Junte-se à nossa turma de 104.686 leitores ativos:
         </p>
-        <div className="flex gap-3 mt-3">
-          <FormContainer />
-          <button className="rounded px-2 text-white font-semibold bg-yellow-600">
-            Inscreva-se!
-          </button>
-        </div>
+        <FormContainer />
       </div>
     </main>
   )

@@ -2,10 +2,7 @@ import { Mail } from 'lucide-react'
 import { twMerge } from 'tailwind-merge'
 import { ComponentProps } from 'react'
 
-export function FormContainer({
-  className,
-  ...props
-}: ComponentProps<'input'>) {
+export function InputWrapper({ className, ...props }: ComponentProps<'input'>) {
   return (
     <div
       className={twMerge(
