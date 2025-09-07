@@ -13,16 +13,19 @@ const postSchema = z.object({
 })
 
 export async function SendEmailAction(
-  initialState: any,
+  initialState: unknown,
   formData: FormData,
 ): Promise<SendEmailState> {
-  const getEmailForm = await formData.get('email')
+  const getEmailForm = formData.get('email')
 
-  const response = await postSchema.safeParse(getEmailForm)
+  const response = postSchema.safeParse({
+    email: getEmailForm as string,
+  })
 
   if (!response.success) {
+    console.log(response.error.issues[0].message)
     return {
-      message: response.error.issues[0].message,
+      message: 'Não foi possível processar sua solicitação!',
       isError: true,
     }
   }
@@ -43,7 +46,7 @@ export async function SendEmailAction(
   }
 
   return {
-    message: 'Create success!',
+    message: 'Cadastrado com sucesso!!',
     isError: false,
   }
 }
