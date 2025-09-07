@@ -16,7 +16,7 @@ const postSchema = z.object({
 export async function SendEmailAction(
   initialState: unknown,
   formData: FormData,
-): Promise<SendEmailState> {
+): Promise<SendEmailState | undefined> {
   const getEmailForm = formData.get('email')
 
   const response = postSchema.safeParse({
