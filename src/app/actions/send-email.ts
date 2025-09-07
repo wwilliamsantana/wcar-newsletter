@@ -1,6 +1,7 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 import z from 'zod'
 
 export type SendEmailState = {
@@ -32,21 +33,32 @@ export async function SendEmailAction(
 
   const { email } = response.data
 
-  const responseDb = await prisma.subscriber.create({
-    data: {
-      email,
-    },
-  })
+  try {
+    const responseDb = await prisma.subscriber.create({
+      data: {
+        email,
+      },
+    })
 
-  if (!responseDb.id) {
-    return {
-      message: 'Não foi possível processar sua solicitação!',
-      isError: true,
+    if (!responseDb.id) {
+      return {
+        message: 'Não foi possível processar sua solicitação!',
+        isError: true,
+      }
     }
-  }
 
-  return {
-    message: 'Cadastrado com sucesso!!',
-    isError: false,
+    return {
+      message: 'Cadastrado com sucesso!!',
+      isError: false,
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {
+          message: 'E-mail já cadastrado!',
+          isError: true,
+        }
+      }
+    }
   }
 }
